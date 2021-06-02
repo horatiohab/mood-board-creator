@@ -40,8 +40,6 @@ function loadImages() {
     return;
   }
 
-  // <div class="board-item"><img src="${imgSrc}" class="board-image"></div>
-
   const boardEls = user.moodBoard.map((imageSrc) => {
     const boardItemDiv = document.createElement("div");
     boardItemDiv.setAttribute("class", "board-item");

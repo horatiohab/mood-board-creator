@@ -97,20 +97,28 @@ $(window).scroll(function () {
 });
 
 // Enlarge image on click
-const modalImg = document.querySelector(".modal-image");
+const modalContainer = document.querySelector(".modal-container");
 const modal = document.querySelector(".modal-container");
 
 function enlarge(event) {
   if (event.target.nodeName !== "BUTTON" || event.target.nodeName !== "A" ) {
+    
     let largeItem = event.target;
-    modalImg.src = largeItem.src;
+    // modalImg.src = largeItem.src;
+
+    const modalImg = document.createElement("img");
+    modalImg.setAttribute("src", largeItem.src);
+    modalImg.setAttribute("class", "modal-image");
+
+    modalContainer.appendChild(modalImg);
 
     $(".modal").show();
-  }
 
+  }
 }
 
 modal.onclick = function () {
   $(".modal").hide();
+  modalContainer.innerHTML = "";
 };
 

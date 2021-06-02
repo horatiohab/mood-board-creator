@@ -1,15 +1,35 @@
+// login button
+const loginButton = $(".change-email");
+
+loginButton.on("click", function () {
+  $(".add-email").show();
+});
+
 // Email validation
 emailForm = document.querySelector("#email-form");
+
+function validateEmail(email) {
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
 
 // basic login
 emailForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  basicLogin();
-  $(".add-email").hide();
+  // submitEmail();
+  var email = document.querySelector("#email").value;
+  console.log(email);
+  if (validateEmail(email)) {
+    basicLogin();
+    $(".add-email").hide();
+  } else {
+    alert("Please enter a valid email");
+  }
+
 });
 
 function basicLogin() {
-  const emailInput = document.querySelector("#email").value;
+  emailInput = document.querySelector("#email").value.toLowerCase();
   localStorage.setItem("lastLogin", emailInput);
 
   // Check if there are any users at all and if not create an array
@@ -33,17 +53,8 @@ function basicLogin() {
 }
 
 function isLoggedIn() {
-  // if (localStorage.getItem("lastLogin")) {
   const lastLogin = localStorage.getItem("lastLogin");
-  // const index = JSON.parse(localStorage.getItem("users"));
-  // const currentUser = index.find(({ email }) => email === lastLogin);
 
-  // localStorage.setItem("currentUser", currentUser);
-  // document.querySelector(".sign-in").innerHTML = currentUser.email;
-  // console.log(localStorage.getItem("currentUser"));
-  // }
-
-  // const checkEmail = localStorage.getItem("lastLogin");
   if (lastLogin) {
     console.log("I'm logged in!");
     document.querySelector(".sign-in").innerHTML = lastLogin;
@@ -68,10 +79,6 @@ function getImageData(event) {
     const lastLogin = localStorage.getItem("lastLogin");
     const index = JSON.parse(localStorage.getItem("users"));
     const currentUser = index.findIndex(({ email }) => email === lastLogin);
-    // if (currentUser === -1) {
-    //   //
-    //   return;
-    // }
 
     index[currentUser].moodBoard.push(imageSource);
 
@@ -82,27 +89,9 @@ function getImageData(event) {
     const images = index[currentUser].moodBoard;
 
     $(event.target).hide();
-    // $(".image-info span").show();
+
     $(`[data-added-img="${imageID}"]`).show();
-
-    // let loadBoard = "";
-
-    // localStorage.setItem(
-    //   "boardData",
-    //   images
-    //     .map(
-    //       (imgSrc) =>
-    //         `<div class="board-item"><img src="${imgSrc}" class="board-image"></div>`
-    //     )
-    //     .join("\n")
-    // );
   }
 }
-
-const loginButton = $(".change-email");
-
-loginButton.on("click", function () {
-  $(".add-email").show();
-});
 
 $(document).ready(isLoggedIn);
